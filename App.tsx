@@ -1,11 +1,13 @@
 import "./global.css"
 import { Provider } from 'react-redux';
 import { store } from './src/store';
-import HomeScreen from './src/screens/HomeScreen';
+
+import RootNavigation from './src/navigation';
+
 
 const App = () => (
   <Provider store={store}>
-    <HomeScreen />
+    <RootNavigation />
   </Provider>
 );
 

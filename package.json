@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "private": false,
   "description": "A boilerplate for React Native with TypeScript and NativeWind (Tailwind CSS)",
-  "keywords": ["react-native", "boilerplate", "template", "nativewind", "tailwindcss", "typescript"],
+  "keywords": [
+    "react-native",
+    "boilerplate",
+    "template",
+    "nativewind",
+    "tailwindcss",
+    "typescript"
+  ],
   "author": "Ayush Kumar Suryan <suryanayush@gmail.com>",
   "scripts": {
     "android": "react-native run-android",
@@ -15,11 +22,14 @@
   "dependencies": {
     "@react-native/new-app-screen": "0.80.1",
     "@reduxjs/toolkit": "^2.8.2",
+    "lucide-react-native": "^0.525.0",
     "nativewind": "^4.1.23",
     "react": "19.1.0",
     "react-native": "0.80.1",
     "react-native-reanimated": "^3.18.0",
     "react-native-safe-area-context": "^5.4.0",
+    "react-native-screens": "^4.11.1",
+    "react-native-svg": "^15.12.0",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
@@ -33,6 +43,9 @@
     "@react-native/eslint-config": "0.80.1",
     "@react-native/metro-config": "0.80.1",
     "@react-native/typescript-config": "0.80.1",
+    "@react-navigation/bottom-tabs": "^7.4.2",
+    "@react-navigation/native": "^7.1.14",
+    "@react-navigation/native-stack": "^7.3.21",
     "@types/jest": "^29.5.13",
     "@types/react": "^19.1.0",
     "@types/react-redux": "^7.1.34",
