@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../utils/cn';
 
-interface ButtonProps {
+export interface ButtonProps {
   title?: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'outline';
