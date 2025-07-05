@@ -88,7 +88,6 @@ const DashboardHomeScreen = () => {
             </View>
             <View className="flex-row space-x-2">
               <Button
-                title=""
                 onPress={() => {}}
                 variant="outline"
                 size="sm"
@@ -97,7 +96,6 @@ const DashboardHomeScreen = () => {
                 <Bell color="#64748b" size={20} />
               </Button>
               <Button
-                title=""
                 onPress={() => {}}
                 variant="outline"
                 size="sm"

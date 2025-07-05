@@ -97,7 +97,6 @@ const ProductsScreen = () => {
               {item.name}
             </Text>
             <Button
-              title=""
               onPress={() => {}}
               variant="outline"
               size="sm"
@@ -123,7 +122,6 @@ const ProductsScreen = () => {
                 </Text>
               )}
               <Button
-                title=""
                 onPress={() => {}}
                 variant={item.inStock ? "primary" : "secondary"}
                 size="sm"
@@ -148,7 +146,6 @@ const ProductsScreen = () => {
             Products
           </Text>
           <Button
-            title=""
             onPress={() => {}}
             variant="outline"
             size="sm"

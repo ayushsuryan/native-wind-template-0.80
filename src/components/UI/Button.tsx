@@ -3,7 +3,7 @@ import { Text, Pressable, ActivityIndicator } from 'react-native';
 import { cn } from '../../utils/cn';
 
 interface ButtonProps {
-  title: string;
+  title?: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'outline';
   size?: 'sm' | 'md' | 'lg';
@@ -11,6 +11,7 @@ interface ButtonProps {
   disabled?: boolean;
   fullWidth?: boolean;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -22,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   fullWidth = false,
   className = '',
+  children,
 }) => {
   const getButtonStyles = () => {
     let baseStyles = 'flex-row items-center justify-center rounded-2xl active:opacity-80 transition-all';
@@ -103,6 +105,18 @@ const Button: React.FC<ButtonProps> = ({
     return textStyles;
   };
 
+  const renderContent = () => {
+    if (children) {
+      return children;
+    }
+    
+    if (title) {
+      return <Text className={getTextStyles()}>{title}</Text>;
+    }
+    
+    return null;
+  };
+
   return (
     <Pressable
       onPress={onPress}
@@ -116,7 +130,7 @@ const Button: React.FC<ButtonProps> = ({
           className="mr-2"
         />
       )}
-      <Text className={getTextStyles()}>{title}</Text>
+      {renderContent()}
     </Pressable>
   );
 };

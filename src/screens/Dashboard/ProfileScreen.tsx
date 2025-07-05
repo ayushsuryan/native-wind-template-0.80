@@ -81,7 +81,6 @@ const ProfileScreen = () => {
               Profile
             </Text>
             <Button
-              title=""
               onPress={() => {}}
               variant="outline"
               size="sm"
@@ -167,7 +166,6 @@ const ProfileScreen = () => {
               {menuItems.map((item, index) => (
                 <View key={index}>
                   <Button
-                    title=""
                     onPress={item.onPress}
                     variant="outline"
                     size="md"

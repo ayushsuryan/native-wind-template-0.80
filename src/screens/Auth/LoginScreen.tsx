@@ -69,7 +69,6 @@ const LoginScreen = () => {
                 leftIcon={<Lock color="#64748b" size={20} />}
                 rightIcon={
                   <Button
-                    title=""
                     onPress={() => setShowPassword(!showPassword)}
                     variant="outline"
                     size="sm"
