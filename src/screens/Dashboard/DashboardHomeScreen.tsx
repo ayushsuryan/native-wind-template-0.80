@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, Dimensions } from 'react-native';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Card } from '../../components/UI';
+import { Button, Card, Badge, Avatar } from '../../components/UI';
 import { 
   TrendingUp, 
   Users, 
@@ -10,10 +10,8 @@ import {
   Bell,
   Settings,
   Activity,
-  Star
+  Plus
 } from 'lucide-react-native';
-
-const { width } = Dimensions.get('window');
 
 const DashboardHomeScreen = () => {
   const stats = [
@@ -53,18 +51,21 @@ const DashboardHomeScreen = () => {
       description: 'Order #1234 from John Doe',
       time: '2 minutes ago',
       icon: <ShoppingBag color="#0ea5e9" size={20} />,
+      status: 'new',
     },
     {
       title: 'Payment processed',
       description: 'Payment of $299.99 completed',
       time: '5 minutes ago',
       icon: <DollarSign color="#22c55e" size={20} />,
+      status: 'completed',
     },
     {
       title: 'New user registered',
       description: 'Jane Smith joined the platform',
       time: '15 minutes ago',
       icon: <Users color="#f59e0b" size={20} />,
+      status: 'pending',
     },
   ];
 
@@ -87,22 +88,12 @@ const DashboardHomeScreen = () => {
               </Text>
             </View>
             <View className="flex-row space-x-2">
-              <Button
-                onPress={() => {}}
-                variant="outline"
-                size="sm"
-                className="w-10 h-10 rounded-full p-0"
-              >
+              <Pressable className="w-10 h-10 rounded-full border-2 border-secondary-300 items-center justify-center">
                 <Bell color="#64748b" size={20} />
-              </Button>
-              <Button
-                onPress={() => {}}
-                variant="outline"
-                size="sm"
-                className="w-10 h-10 rounded-full p-0"
-              >
+              </Pressable>
+              <Pressable className="w-10 h-10 rounded-full border-2 border-secondary-300 items-center justify-center">
                 <Settings color="#64748b" size={20} />
-              </Button>
+              </Pressable>
             </View>
           </View>
         </View>
@@ -126,9 +117,11 @@ const DashboardHomeScreen = () => {
                           {stat.value}
                         </Text>
                       </View>
-                      <View className="ml-2">
-                        {stat.icon}
-                      </View>
+                      <Avatar
+                        size="md"
+                        icon={stat.icon}
+                        className="ml-2"
+                      />
                     </View>
                     <View className="flex-row items-center">
                       <TrendingUp color="#22c55e" size={16} />
@@ -175,13 +168,26 @@ const DashboardHomeScreen = () => {
             <View className="space-y-4">
               {recentActivities.map((activity, index) => (
                 <View key={index} className="flex-row items-start">
-                  <View className="w-10 h-10 rounded-full bg-secondary-100 items-center justify-center mr-3">
-                    {activity.icon}
-                  </View>
+                  <Avatar
+                    size="md"
+                    icon={activity.icon}
+                    className="mr-3"
+                  />
                   <View className="flex-1">
-                    <Text className="text-base font-medium text-secondary-900">
-                      {activity.title}
-                    </Text>
+                    <View className="flex-row items-center justify-between mb-1">
+                      <Text className="text-base font-medium text-secondary-900">
+                        {activity.title}
+                      </Text>
+                      <Badge 
+                        variant={
+                          activity.status === 'new' ? 'primary' : 
+                          activity.status === 'completed' ? 'success' : 'warning'
+                        }
+                        size="sm"
+                      >
+                        {activity.status}
+                      </Badge>
+                    </View>
                     <Text className="text-sm text-secondary-600">
                       {activity.description}
                     </Text>

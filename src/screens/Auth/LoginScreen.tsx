@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../navigation/AuthNavigator';
-import { Button, Input, Card } from '../../components/UI';
+import { Button, Input, Card, Avatar } from '../../components/UI';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react-native';
 
 const LoginScreen = () => {
@@ -14,12 +14,13 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     setIsLoading(true);
     // Mock login delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    navigation.navigate('Otp');
-    setIsLoading(false);
+    setTimeout(() => {
+      navigation.navigate('Otp');
+      setIsLoading(false);
+    }, 1500);
   };
 
   return (
@@ -35,9 +36,11 @@ const LoginScreen = () => {
         >
           {/* Header */}
           <View className="items-center pt-12 pb-8">
-            <View className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full items-center justify-center mb-6 shadow-lg">
-              <Lock color="white" size={32} />
-            </View>
+            <Avatar
+              size="lg"
+              icon={<Lock color="white" size={32} />}
+              className="mb-6 shadow-lg"
+            />
             <Text className="text-3xl font-bold text-secondary-900 mb-3">
               Welcome Back
             </Text>
@@ -68,17 +71,12 @@ const LoginScreen = () => {
                 secureTextEntry={!showPassword}
                 leftIcon={<Lock color="#64748b" size={20} />}
                 rightIcon={
-                  <Button
-                    onPress={() => setShowPassword(!showPassword)}
-                    variant="outline"
-                    size="sm"
-                    className="p-0 border-0 bg-transparent"
-                  >
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
                     {showPassword ? 
                       <EyeOff color="#64748b" size={20} /> : 
                       <Eye color="#64748b" size={20} />
                     }
-                  </Button>
+                  </Pressable>
                 }
               />
 

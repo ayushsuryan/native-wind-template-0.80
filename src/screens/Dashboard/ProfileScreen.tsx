@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/userSlice';
 import type { AuthStackParamList } from '../../navigation/AuthNavigator';
-import { Button, Card } from '../../components/UI';
+import { Button, Card, Avatar, Badge } from '../../components/UI';
 import { 
   User, 
   Settings, 
@@ -17,7 +17,8 @@ import {
   LogOut,
   Edit3,
   Star,
-  Award
+  Award,
+  ChevronRight
 } from 'lucide-react-native';
 
 const ProfileScreen = () => {
@@ -80,23 +81,20 @@ const ProfileScreen = () => {
             <Text className="text-2xl font-bold text-secondary-900">
               Profile
             </Text>
-            <Button
-              onPress={() => {}}
-              variant="outline"
-              size="sm"
-              className="w-10 h-10 rounded-full p-0"
-            >
+            <Pressable className="w-10 h-10 rounded-full border-2 border-secondary-300 items-center justify-center">
               <Settings color="#64748b" size={20} />
-            </Button>
+            </Pressable>
           </View>
         </View>
 
         {/* Profile Header */}
         <View className="px-6 py-6 bg-white">
           <View className="items-center">
-            <View className="w-24 h-24 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full items-center justify-center mb-4 shadow-lg">
-              <User color="white" size={40} />
-            </View>
+            <Avatar
+              size="xl"
+              fallback="John Doe"
+              className="mb-4 shadow-lg"
+            />
             <Text className="text-2xl font-bold text-secondary-900 mb-1">
               John Doe
             </Text>
@@ -106,6 +104,9 @@ const ProfileScreen = () => {
             <View className="flex-row items-center mb-4">
               <Star color="#f59e0b" size={16} />
               <Text className="text-secondary-600 ml-1">4.8 Rating</Text>
+              <Badge variant="primary" size="sm" className="ml-2">
+                Premium
+              </Badge>
             </View>
             <Button
               title="Edit Profile"
@@ -141,9 +142,11 @@ const ProfileScreen = () => {
           </Text>
           <Card variant="elevated">
             <View className="flex-row items-center">
-              <View className="w-12 h-12 bg-warning-100 rounded-full items-center justify-center mr-4">
-                <Award color="#f59e0b" size={24} />
-              </View>
+              <Avatar
+                size="md"
+                icon={<Award color="#f59e0b" size={24} />}
+                className="mr-4 bg-warning-100"
+              />
               <View className="flex-1">
                 <Text className="text-base font-medium text-secondary-900">
                   Loyalty Badge
@@ -152,6 +155,9 @@ const ProfileScreen = () => {
                   Earned for being a loyal customer
                 </Text>
               </View>
+              <Badge variant="warning" size="sm">
+                New
+              </Badge>
             </View>
           </Card>
         </View>
@@ -165,26 +171,23 @@ const ProfileScreen = () => {
             <View className="space-y-1">
               {menuItems.map((item, index) => (
                 <View key={index}>
-                  <Button
+                  <Pressable
                     onPress={item.onPress}
-                    variant="outline"
-                    size="md"
-                    className="bg-transparent border-0 p-4 w-full justify-start"
+                    className="flex-row items-center p-4 active:bg-secondary-50"
                   >
-                    <View className="flex-row items-center w-full">
-                      <View className="mr-3">
-                        {item.icon}
-                      </View>
-                      <View className="flex-1">
-                        <Text className="text-base font-medium text-secondary-900 text-left">
-                          {item.title}
-                        </Text>
-                        <Text className="text-sm text-secondary-600 text-left">
-                          {item.description}
-                        </Text>
-                      </View>
+                    <View className="mr-3">
+                      {item.icon}
                     </View>
-                  </Button>
+                    <View className="flex-1">
+                      <Text className="text-base font-medium text-secondary-900">
+                        {item.title}
+                      </Text>
+                      <Text className="text-sm text-secondary-600">
+                        {item.description}
+                      </Text>
+                    </View>
+                    <ChevronRight color="#64748b" size={20} />
+                  </Pressable>
                   {index < menuItems.length - 1 && (
                     <View className="h-px bg-secondary-200 mx-4" />
                   )}
@@ -197,17 +200,17 @@ const ProfileScreen = () => {
         {/* Logout Button */}
         <View className="px-6 py-4">
           <Button
-            title="Sign Out"
             onPress={handleLogout}
             variant="error"
             size="lg"
             fullWidth
-            className="flex-row items-center justify-center"
           >
-            <LogOut color="white" size={20} />
-            <Text className="text-white text-lg font-semibold ml-2">
-              Sign Out
-            </Text>
+            <View className="flex-row items-center">
+              <LogOut color="white" size={20} />
+              <Text className="text-white text-lg font-semibold ml-2">
+                Sign Out
+              </Text>
+            </View>
           </Button>
         </View>
 

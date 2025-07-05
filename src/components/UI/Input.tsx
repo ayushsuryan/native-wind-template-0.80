@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { TextInput, View, Text, TextInputProps } from 'react-native';
 import { cn } from '../../utils/cn';
 
-interface InputProps extends TextInputProps {
+interface InputProps extends Omit<TextInputProps, 'className'> {
   label?: string;
   error?: string;
   helperText?: string;
@@ -11,6 +11,7 @@ interface InputProps extends TextInputProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   containerClassName?: string;
+  className?: string;
 }
 
 const Input = forwardRef<TextInput, InputProps>(({
@@ -112,3 +113,4 @@ const Input = forwardRef<TextInput, InputProps>(({
 Input.displayName = 'Input';
 
 export default Input;
+export type { InputProps };

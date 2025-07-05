@@ -1,21 +1,33 @@
 import React from 'react';
-import { Text, Pressable, ActivityIndicator } from 'react-native';
+import { Text, Pressable, ActivityIndicator, PressableProps } from 'react-native';
 import { cn } from '../../utils/cn';
 
-export interface ButtonProps {
-  title?: string;
-  onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+type ButtonVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'outline';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+interface BaseButtonProps {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   loading?: boolean;
   disabled?: boolean;
   fullWidth?: boolean;
   className?: string;
-  children?: React.ReactNode;
+  onPress: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  title,
+interface ButtonWithTitle extends BaseButtonProps {
+  title: string;
+  children?: never;
+}
+
+interface ButtonWithChildren extends BaseButtonProps {
+  title?: never;
+  children: React.ReactNode;
+}
+
+type ButtonProps = ButtonWithTitle | ButtonWithChildren;
+
+const Button = ({ 
   onPress,
   variant = 'primary',
   size = 'md',
@@ -23,10 +35,10 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   fullWidth = false,
   className = '',
-  children,
-}) => {
+  ...props
+}: ButtonProps) => {
   const getButtonStyles = () => {
-    let baseStyles = 'flex-row items-center justify-center rounded-2xl active:opacity-80 transition-all';
+    let baseStyles = 'flex-row items-center justify-center rounded-2xl active:opacity-80';
     
     // Size styles
     switch (size) {
@@ -44,31 +56,29 @@ const Button: React.FC<ButtonProps> = ({
     // Variant styles
     switch (variant) {
       case 'primary':
-        baseStyles += ' bg-primary-600 shadow-md';
+        baseStyles += ' bg-primary-600';
         break;
       case 'secondary':
-        baseStyles += ' bg-secondary-600 shadow-md';
+        baseStyles += ' bg-secondary-600';
         break;
       case 'success':
-        baseStyles += ' bg-success-600 shadow-md';
+        baseStyles += ' bg-success-600';
         break;
       case 'warning':
-        baseStyles += ' bg-warning-600 shadow-md';
+        baseStyles += ' bg-warning-600';
         break;
       case 'error':
-        baseStyles += ' bg-error-600 shadow-md';
+        baseStyles += ' bg-error-600';
         break;
       case 'outline':
         baseStyles += ' bg-transparent border-2 border-primary-600';
         break;
     }
     
-    // Full width
     if (fullWidth) {
       baseStyles += ' w-full';
     }
     
-    // Disabled state
     if (disabled || loading) {
       baseStyles += ' opacity-50';
     }
@@ -79,7 +89,6 @@ const Button: React.FC<ButtonProps> = ({
   const getTextStyles = () => {
     let textStyles = 'font-semibold';
     
-    // Size styles
     switch (size) {
       case 'sm':
         textStyles += ' text-sm';
@@ -92,7 +101,6 @@ const Button: React.FC<ButtonProps> = ({
         break;
     }
     
-    // Variant styles
     switch (variant) {
       case 'outline':
         textStyles += ' text-primary-600';
@@ -106,12 +114,12 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const renderContent = () => {
-    if (children) {
-      return children;
+    if ('children' in props && props.children) {
+      return props.children;
     }
     
-    if (title) {
-      return <Text className={getTextStyles()}>{title}</Text>;
+    if ('title' in props && props.title) {
+      return <Text className={getTextStyles()}>{props.title}</Text>;
     }
     
     return null;
@@ -127,7 +135,7 @@ const Button: React.FC<ButtonProps> = ({
         <ActivityIndicator
           size="small"
           color={variant === 'outline' ? '#0284c7' : '#ffffff'}
-          className="mr-2"
+          style={{ marginRight: 8 }}
         />
       )}
       {renderContent()}
@@ -136,3 +144,4 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 export default Button;
+export type { ButtonProps };

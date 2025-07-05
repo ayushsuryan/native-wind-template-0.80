@@ -1,14 +1,12 @@
 
 import React from 'react';
-import { View, Text, ScrollView, Dimensions } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../navigation/AuthNavigator';
-import { Button, Card } from '../components/UI';
+import { Button, Card, Avatar } from '../components/UI';
 import { Sparkles, Shield, Zap } from 'lucide-react-native';
-
-const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
@@ -40,9 +38,11 @@ const HomeScreen = () => {
       >
         {/* Header Section */}
         <View className="items-center pt-12 pb-8">
-          <View className="w-24 h-24 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full items-center justify-center mb-6 shadow-lg">
-            <Sparkles color="white" size={40} />
-          </View>
+          <Avatar
+            size="xl"
+            icon={<Sparkles color="white" size={40} />}
+            className="mb-6 shadow-lg"
+          />
           <Text className="text-4xl font-bold text-secondary-900 mb-4 text-center">
             Welcome to
           </Text>

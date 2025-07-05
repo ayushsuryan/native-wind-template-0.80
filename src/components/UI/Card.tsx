@@ -2,19 +2,20 @@ import React from 'react';
 import { View, ViewProps } from 'react-native';
 import { cn } from '../../utils/cn';
 
-interface CardProps extends ViewProps {
+interface CardProps extends Omit<ViewProps, 'className'> {
   variant?: 'default' | 'elevated' | 'outlined';
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   children: React.ReactNode;
+  className?: string;
 }
 
-const Card: React.FC<CardProps> = ({
+const Card = ({
   variant = 'default',
   padding = 'md',
   children,
   className = '',
   ...props
-}) => {
+}: CardProps) => {
   const getCardStyles = () => {
     let baseStyles = 'rounded-2xl';
     
@@ -61,3 +62,4 @@ const Card: React.FC<CardProps> = ({
 };
 
 export default Card;
+export type { CardProps };

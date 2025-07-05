@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Card, Input } from '../../components/UI';
+import { Button, Card, Input, Badge, Avatar } from '../../components/UI';
 import { Search, Filter, Heart, Star, ShoppingCart } from 'lucide-react-native';
 
 const ProductsScreen = () => {
@@ -26,6 +26,7 @@ const ProductsScreen = () => {
       category: 'electronics',
       image: '🎧',
       inStock: true,
+      isNew: true,
     },
     {
       id: 2,
@@ -36,6 +37,7 @@ const ProductsScreen = () => {
       category: 'clothing',
       image: '👕',
       inStock: true,
+      isNew: false,
     },
     {
       id: 3,
@@ -46,6 +48,7 @@ const ProductsScreen = () => {
       category: 'books',
       image: '📚',
       inStock: false,
+      isNew: false,
     },
     {
       id: 4,
@@ -56,6 +59,7 @@ const ProductsScreen = () => {
       category: 'home',
       image: '☕',
       inStock: true,
+      isNew: true,
     },
     {
       id: 5,
@@ -66,6 +70,7 @@ const ProductsScreen = () => {
       category: 'electronics',
       image: '📱',
       inStock: true,
+      isNew: false,
     },
     {
       id: 6,
@@ -76,11 +81,12 @@ const ProductsScreen = () => {
       category: 'clothing',
       image: '👟',
       inStock: true,
+      isNew: false,
     },
   ];
 
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchText.toLowerCase());
+    const matchesSearch = product.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -88,22 +94,30 @@ const ProductsScreen = () => {
   const renderProduct = ({ item }) => (
     <Card variant="elevated" className="mb-4">
       <View className="flex-row">
-        <View className="w-20 h-20 bg-secondary-100 rounded-xl items-center justify-center mr-4">
-          <Text className="text-3xl">{item.image}</Text>
+        <View className="relative">
+          <Avatar
+            size="lg"
+            fallback={item.image}
+            className="mr-4 bg-secondary-100"
+          />
+          {item.isNew && (
+            <Badge 
+              variant="primary" 
+              size="sm" 
+              className="absolute -top-1 -right-1"
+            >
+              New
+            </Badge>
+          )}
         </View>
         <View className="flex-1">
           <View className="flex-row items-start justify-between mb-2">
             <Text className="text-lg font-semibold text-secondary-900 flex-1">
               {item.name}
             </Text>
-            <Button
-              onPress={() => {}}
-              variant="outline"
-              size="sm"
-              className="w-8 h-8 rounded-full p-0 border-0"
-            >
+            <Pressable className="w-8 h-8 rounded-full items-center justify-center">
               <Heart color="#64748b" size={16} />
-            </Button>
+            </Pressable>
           </View>
           <View className="flex-row items-center mb-2">
             <Star color="#f59e0b" size={16} />
@@ -117,9 +131,9 @@ const ProductsScreen = () => {
             </Text>
             <View className="flex-row items-center space-x-2">
               {!item.inStock && (
-                <Text className="text-xs text-error-500 font-medium">
+                <Badge variant="error" size="sm">
                   Out of Stock
-                </Text>
+                </Badge>
               )}
               <Button
                 onPress={() => {}}
@@ -145,14 +159,9 @@ const ProductsScreen = () => {
           <Text className="text-2xl font-bold text-secondary-900">
             Products
           </Text>
-          <Button
-            onPress={() => {}}
-            variant="outline"
-            size="sm"
-            className="w-10 h-10 rounded-full p-0"
-          >
+          <Pressable className="w-10 h-10 rounded-full border-2 border-secondary-300 items-center justify-center">
             <Filter color="#64748b" size={20} />
-          </Button>
+          </Pressable>
         </View>
         
         {/* Search */}
@@ -206,11 +215,11 @@ const ProductsScreen = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 20 }}
           ListEmptyComponent={
-            <View className="items-center py-12">
+            <Card variant="outlined" className="items-center py-12">
               <Text className="text-secondary-500 text-center">
                 No products found matching your criteria
               </Text>
-            </View>
+            </Card>
           }
         />
       </View>
