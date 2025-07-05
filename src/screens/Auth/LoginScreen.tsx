@@ -1,47 +1,156 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../navigation/AuthNavigator';
+import { Button, Input, Card, Avatar } from '../../components/UI';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react-native';
 
 const LoginScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = () => {
-    // Mock login, navigate to OTP
-    navigation.navigate('Otp');
+    setIsLoading(true);
+    // Mock login delay
+    setTimeout(() => {
+      navigation.navigate('Otp');
+      setIsLoading(false);
+    }, 1500);
   };
 
   return (
-    <View className="flex-1 justify-center items-center bg-white px-6">
-      <Text className="text-3xl font-bold mb-6">Login</Text>
-      <TextInput
-        className="border border-gray-300 rounded-lg px-4 py-3 w-full mb-4"
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-      <TextInput
-        className="border border-gray-300 rounded-lg px-4 py-3 w-full mb-6"
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Pressable
-        className="bg-blue-500 px-6 py-3 rounded-full w-full mb-3"
-        onPress={handleLogin}
+    <SafeAreaView className="flex-1 bg-gradient-to-br from-primary-50 to-secondary-50">
+      <KeyboardAvoidingView 
+        className="flex-1" 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <Text className="text-white text-lg font-medium text-center">Login</Text>
-      </Pressable>
-      <Pressable onPress={() => navigation.navigate('Register')}>
-        <Text className="text-blue-500 text-base">Don't have an account? Register</Text>
-      </Pressable>
-    </View>
+        <ScrollView 
+          className="flex-1 px-6" 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          {/* Header */}
+          <View className="items-center pt-12 pb-8">
+            <Avatar
+              size="lg"
+              icon={<Lock color="white" size={32} />}
+              className="mb-6 shadow-lg"
+            />
+            <Text className="text-3xl font-bold text-secondary-900 mb-3">
+              Welcome Back
+            </Text>
+            <Text className="text-lg text-secondary-600 text-center">
+              Sign in to your account
+            </Text>
+          </View>
+
+          {/* Login Form */}
+          <Card variant="elevated" className="mb-6">
+            <View className="space-y-4">
+              <Input
+                label="Email Address"
+                placeholder="Enter your email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                leftIcon={<Mail color="#64748b" size={20} />}
+              />
+              
+              <Input
+                label="Password"
+                placeholder="Enter your password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                leftIcon={<Lock color="#64748b" size={20} />}
+                rightIcon={
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                    {showPassword ? 
+                      <EyeOff color="#64748b" size={20} /> : 
+                      <Eye color="#64748b" size={20} />
+                    }
+                  </Pressable>
+                }
+              />
+
+              <Button
+                title="Sign In"
+                onPress={handleLogin}
+                variant="primary"
+                size="lg"
+                fullWidth
+                loading={isLoading}
+                className="mt-6"
+              />
+            </View>
+          </Card>
+
+          {/* Additional Options */}
+          <View className="items-center mb-6">
+            <Button
+              title="Forgot Password?"
+              onPress={() => {}}
+              variant="outline"
+              size="sm"
+              className="bg-transparent border-0"
+            />
+          </View>
+
+          {/* Divider */}
+          <View className="flex-row items-center mb-6">
+            <View className="flex-1 h-px bg-secondary-300" />
+            <Text className="px-4 text-secondary-500 text-sm">or</Text>
+            <View className="flex-1 h-px bg-secondary-300" />
+          </View>
+
+          {/* Social Login */}
+          <Card variant="outlined" className="mb-6">
+            <View className="items-center py-4">
+              <Text className="text-secondary-700 font-medium mb-4">
+                Continue with Social
+              </Text>
+              <View className="flex-row space-x-4">
+                <Button
+                  title="Google"
+                  onPress={() => {}}
+                  variant="outline"
+                  size="md"
+                  className="flex-1"
+                />
+                <Button
+                  title="Apple"
+                  onPress={() => {}}
+                  variant="secondary"
+                  size="md"
+                  className="flex-1"
+                />
+              </View>
+            </View>
+          </Card>
+
+          {/* Sign Up Link */}
+          <View className="items-center flex-row justify-center">
+            <Text className="text-secondary-600 text-base">
+              Don't have an account?{' '}
+            </Text>
+            <Button
+              title="Sign Up"
+              onPress={() => navigation.navigate('Register')}
+              variant="outline"
+              size="sm"
+              className="bg-transparent border-0 p-0"
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
