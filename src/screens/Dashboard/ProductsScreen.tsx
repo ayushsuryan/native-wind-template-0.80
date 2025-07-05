@@ -91,7 +91,7 @@ const ProductsScreen = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const renderProduct = ({ item }) => (
+  const renderProduct = ({ item }: { item: any }) => (
     <Card variant="elevated" className="mb-4">
       <View className="flex-row">
         <View className="relative">
@@ -101,9 +101,9 @@ const ProductsScreen = () => {
             className="mr-4 bg-secondary-100"
           />
           {item.isNew && (
-            <Badge 
-              variant="primary" 
-              size="sm" 
+            <Badge
+              variant="primary"
+              size="sm"
               className="absolute -top-1 -right-1"
             >
               New
@@ -136,7 +136,7 @@ const ProductsScreen = () => {
                 </Badge>
               )}
               <Button
-                onPress={() => {}}
+                onPress={() => { }}
                 variant={item.inStock ? "primary" : "secondary"}
                 size="sm"
                 disabled={!item.inStock}
@@ -163,7 +163,7 @@ const ProductsScreen = () => {
             <Filter color="#64748b" size={20} />
           </Pressable>
         </View>
-        
+
         {/* Search */}
         <Input
           placeholder="Search products..."
@@ -176,8 +176,8 @@ const ProductsScreen = () => {
 
       {/* Categories */}
       <View className="px-6 py-4 bg-white border-b border-secondary-200">
-        <ScrollView 
-          horizontal 
+        <ScrollView
+          horizontal
           showsHorizontalScrollIndicator={false}
           className="flex-row"
         >
@@ -202,12 +202,12 @@ const ProductsScreen = () => {
           </Text>
           <Button
             title="Sort"
-            onPress={() => {}}
+            onPress={() => { }}
             variant="outline"
             size="sm"
           />
         </View>
-        
+
         <FlatList
           data={filteredProducts}
           renderItem={renderProduct}
