@@ -1,4 +1,8 @@
 const { Pool } = require('pg');
+const dns = require('dns');
+
+// Force IPv4 resolution to avoid IPv6 connectivity issues
+dns.setDefaultResultOrder('ipv4first');
 
 // Create a connection pool
 const pool = new Pool({
