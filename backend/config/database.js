@@ -1,16 +1,20 @@
 const { Pool } = require('pg');
-const dns = require('dns');
 
-// Force IPv4 resolution to avoid IPv6 connectivity issues
-dns.setDefaultResultOrder('ipv4first');
-
-// Create a connection pool
+// Create a connection pool optimized for Supavisor session mode
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  ssl: {
+    rejectUnauthorized: false // Required for Supabase connections
+  },
   max: 20, // Maximum number of clients in the pool
+  min: 2, // Minimum number of clients in the pool
   idleTimeoutMillis: 30000, // How long a client is allowed to remain idle
-  connectionTimeoutMillis: 2000, // How long to wait when connecting a client
+  connectionTimeoutMillis: 10000, // Increased timeout for better reliability
+  acquireTimeoutMillis: 60000, // How long to wait for a connection from the pool
+  createTimeoutMillis: 30000, // How long to wait when creating a new client
+  destroyTimeoutMillis: 5000, // How long to wait when destroying a client
+  reapIntervalMillis: 1000, // How often to check for idle clients
+  createRetryIntervalMillis: 200, // How long to wait before retrying to create a client
 });
 
 // Test database connection
