@@ -69,7 +69,7 @@ const startServer = async () => {
     // Initialize database tables
     await initializeDatabase();
     
-    app.listen(PORT, () => {
+    app.listen(4000, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📱 Environment: ${process.env.NODE_ENV}`);
       console.log(`🔗 Health check: http://localhost:${PORT}/health`);
